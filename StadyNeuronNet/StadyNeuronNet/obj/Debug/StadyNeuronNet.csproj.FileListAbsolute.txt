@@ -1,0 +1,9 @@
+D:\OneDrive\Programming\SmartBoard\ON C#\StadyNeuronNet\StadyNeuronNet\obj\Debug\StadyNeuronNet.csprojResolveAssemblyReference.cache
+D:\OneDrive\Programming\SmartBoard\ON C#\StadyNeuronNet\StadyNeuronNet\obj\Debug\StadyNeuronNet.Form1.resources
+D:\OneDrive\Programming\SmartBoard\ON C#\StadyNeuronNet\StadyNeuronNet\obj\Debug\StadyNeuronNet.Properties.Resources.resources
+D:\OneDrive\Programming\SmartBoard\ON C#\StadyNeuronNet\StadyNeuronNet\obj\Debug\StadyNeuronNet.csproj.GenerateResource.Cache
+D:\OneDrive\Programming\SmartBoard\ON C#\StadyNeuronNet\StadyNeuronNet\bin\Debug\StadyNeuronNet.exe.config
+D:\OneDrive\Programming\SmartBoard\ON C#\StadyNeuronNet\StadyNeuronNet\bin\Debug\StadyNeuronNet.exe
+D:\OneDrive\Programming\SmartBoard\ON C#\StadyNeuronNet\StadyNeuronNet\bin\Debug\StadyNeuronNet.pdb
+D:\OneDrive\Programming\SmartBoard\ON C#\StadyNeuronNet\StadyNeuronNet\obj\Debug\StadyNeuronNet.exe
+D:\OneDrive\Programming\SmartBoard\ON C#\StadyNeuronNet\StadyNeuronNet\obj\Debug\StadyNeuronNet.pdb
