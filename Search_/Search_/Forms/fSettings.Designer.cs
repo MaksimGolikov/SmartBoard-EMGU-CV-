@@ -42,6 +42,7 @@
             this.max = new System.Windows.Forms.Label();
             this.num_Max = new System.Windows.Forms.NumericUpDown();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.cb_BySkin = new System.Windows.Forms.CheckBox();
             this.label9 = new System.Windows.Forms.Label();
             this.num_trashLink = new System.Windows.Forms.NumericUpDown();
             this.label2 = new System.Windows.Forms.Label();
@@ -69,7 +70,7 @@
             this.pb_result = new System.Windows.Forms.PictureBox();
             this.pb_original = new System.Windows.Forms.PictureBox();
             this.FrameTimer = new System.Windows.Forms.Timer(this.components);
-            this.cb_BySkin = new System.Windows.Forms.CheckBox();
+            this.bn_helper = new System.Windows.Forms.Button();
             this.groupBox3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.num_RadiusSearchArea)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.num_ColorPossibleDelta)).BeginInit();
@@ -281,6 +282,17 @@
             this.groupBox1.TabIndex = 49;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Filter configurations";
+            // 
+            // cb_BySkin
+            // 
+            this.cb_BySkin.AutoSize = true;
+            this.cb_BySkin.Location = new System.Drawing.Point(159, 123);
+            this.cb_BySkin.Name = "cb_BySkin";
+            this.cb_BySkin.Size = new System.Drawing.Size(60, 17);
+            this.cb_BySkin.TabIndex = 36;
+            this.cb_BySkin.Text = "By skin";
+            this.cb_BySkin.UseVisualStyleBackColor = true;
+            this.cb_BySkin.CheckedChanged += new System.EventHandler(this.cb_BySkin_CheckedChanged);
             // 
             // label9
             // 
@@ -602,22 +614,22 @@
             // 
             this.FrameTimer.Tick += new System.EventHandler(this.FrameTimer_Tick);
             // 
-            // cb_BySkin
+            // bn_helper
             // 
-            this.cb_BySkin.AutoSize = true;
-            this.cb_BySkin.Location = new System.Drawing.Point(159, 123);
-            this.cb_BySkin.Name = "cb_BySkin";
-            this.cb_BySkin.Size = new System.Drawing.Size(60, 17);
-            this.cb_BySkin.TabIndex = 36;
-            this.cb_BySkin.Text = "By skin";
-            this.cb_BySkin.UseVisualStyleBackColor = true;
-            this.cb_BySkin.CheckedChanged += new System.EventHandler(this.cb_BySkin_CheckedChanged);
+            this.bn_helper.Location = new System.Drawing.Point(346, 477);
+            this.bn_helper.Name = "bn_helper";
+            this.bn_helper.Size = new System.Drawing.Size(108, 22);
+            this.bn_helper.TabIndex = 52;
+            this.bn_helper.Text = "Help";
+            this.bn_helper.UseVisualStyleBackColor = true;
+            this.bn_helper.Click += new System.EventHandler(this.bn_helper_Click);
             // 
             // fSettings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(634, 511);
+            this.Controls.Add(this.bn_helper);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
@@ -705,5 +717,6 @@
         private System.Windows.Forms.PictureBox pb_original;
         private System.Windows.Forms.Timer FrameTimer;
         private System.Windows.Forms.CheckBox cb_BySkin;
+        private System.Windows.Forms.Button bn_helper;
     }
 }

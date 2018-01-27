@@ -1,0 +1,13 @@
+                                                            POSSIBLE GESTURE FOR CONTROOL OBJECTS
+
+
+
+
+    Neural network can recognize next gesture:  
+              -  Take
+              -  Move
+              -  Break
+              -  Scale
+              -  Delete
+
+Each of this operations can be apply to any objects on the screen. Gesture of hand for this operations displaed on pictire1

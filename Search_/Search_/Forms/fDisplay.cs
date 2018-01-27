@@ -65,7 +65,7 @@ namespace Search_.Forms
 
         private void showHelperToolStripMenuItem_Click(object sender, EventArgs e)
         {
-                      
+            presenter.LounchHelper();
         }
 
 

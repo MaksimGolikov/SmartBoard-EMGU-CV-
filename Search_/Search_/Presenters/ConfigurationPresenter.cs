@@ -130,6 +130,10 @@ namespace Search_.Presenters
             cam = camera;
         }
 
+        public void LounchHeper()
+        {
+            System.Diagnostics.Process.Start("Helper.exe");
+        }
 
 
 

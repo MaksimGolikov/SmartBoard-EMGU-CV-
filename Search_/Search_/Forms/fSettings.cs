@@ -204,5 +204,10 @@ namespace Search_.Forms
         {
             presenter.SkinMode(cb_BySkin.Checked);
         }
+
+        private void bn_helper_Click(object sender, EventArgs e)
+        {
+            presenter.LounchHeper();
+        }
     }
 }

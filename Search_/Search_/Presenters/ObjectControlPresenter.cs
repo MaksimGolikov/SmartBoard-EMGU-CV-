@@ -79,6 +79,9 @@ namespace Search_.Presenters
         public string GetNameOfCurrentOperation { get => controlObject.LastOperations.ToString();  }
 
 
+
+
+
         public ObjectControlPresenter(fDisplay newForm, ConfigurationPresenter tmpPresenter, string new_path)
         {
             form = newForm;
@@ -135,6 +138,10 @@ namespace Search_.Presenters
             isGestureCanBeChange = false;
         }
 
+        public void LounchHelper()
+        {
+            System.Diagnostics.Process.Start("Helper.exe");
+        }
 
         public void LoadObjects()
         {
@@ -264,7 +271,7 @@ namespace Search_.Presenters
 
         }
 
-
+        
 
 
         public void EndProcess()

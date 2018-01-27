@@ -1,0 +1,11 @@
+1 Create folder wich name is name of punct
+2 Create in folder text file(.txt) with name "text"
+3 If yu have needed to add a picture, add it with name is number (1,2,3...) and type of file  .jpg
+(next name image in folder increase in 1)
+
+4 Finaly, in file Paragraphs write name of folder at necessary line
+
+5 lounch helper 
+
+6 select necessary punct and pres Alt+q . After that, button Write will
+ be visible on top line of programm

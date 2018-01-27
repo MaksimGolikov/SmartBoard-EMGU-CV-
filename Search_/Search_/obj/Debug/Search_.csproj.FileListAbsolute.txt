@@ -44,3 +44,6 @@ D:\OneDrive\Programming\SmartBoard\ON C#\Search_\Search_\bin\Debug\Resourse\poin
 D:\OneDrive\Programming\SmartBoard\ON C#\Search_\Search_\bin\Debug\Resourse\point2.png
 D:\OneDrive\Programming\SmartBoard\ON C#\Search_\Search_\bin\Debug\Resourse\ico
 D:\OneDrive\Programming\SmartBoard\ON C#\Search_\Search_\obj\Debug\Search_.Forms.fSettings.resources
+D:\OneDrive\Programming\SmartBoard\ON C#\Search_\Search_\bin\Debug\Texts\Paragraphs.txt
+D:\OneDrive\Programming\SmartBoard\ON C#\Search_\Search_\bin\Debug\Texts\icon.ico
+D:\OneDrive\Programming\SmartBoard\ON C#\Search_\Search_\bin\Debug\Texts\hello\text.txt

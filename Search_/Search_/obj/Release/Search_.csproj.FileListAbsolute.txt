@@ -44,3 +44,9 @@ D:\OneDrive\Programming\SmartBoard\ON C#\Search_\Search_\bin\Release\Resourse\po
 D:\OneDrive\Programming\SmartBoard\ON C#\Search_\Search_\bin\Release\Resourse\point2.png
 D:\OneDrive\Programming\SmartBoard\ON C#\Search_\Search_\bin\Release\Resourse\ico
 D:\OneDrive\Programming\SmartBoard\ON C#\Search_\Search_\obj\Release\Search_.Forms.fSettings.resources
+D:\OneDrive\Programming\SmartBoard\ON C#\Search_\Search_\bin\Release\Texts\hello\text.txt
+D:\OneDrive\Programming\SmartBoard\ON C#\Search_\Search_\bin\Release\Texts\Paragraphs.txt
+D:\OneDrive\Programming\SmartBoard\ON C#\Search_\Search_\bin\Release\Texts\icon.ico
+D:\OneDrive\Programming\SmartBoard\ON C#\Search_\Search_\bin\Release\Helper.exe
+D:\OneDrive\Programming\SmartBoard\ON C#\Search_\Search_\bin\Release\Helper.pdb
+D:\OneDrive\Programming\SmartBoard\ON C#\Search_\Search_\bin\Release\Helper.exe.config
