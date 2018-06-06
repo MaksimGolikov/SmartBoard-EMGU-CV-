@@ -1,0 +1,84 @@
+<html>
+<head>
+    <title>Smart board</title>
+    <meta http-equiv = "Content-Type" content="text/html; charset=utf-8" />
+    <link rel="stylesheet" type="text/css" href="./css/styles.css">
+    <script type="text/javascript" src="js/logic1.js"></script>
+</head>
+
+<body onload="init()">
+    <div id="sketchpadapp">
+        <div class="leftside">
+
+            <table>
+                <tr>
+                    <td width="70px">
+                        <label for="colors">Colors<b></label>
+                    </td>
+                    <td>
+                        <select id="colors" name="colors" onchange="setColor(this.value)" >
+                            <option value="Black"  >Black</option>
+                            <option value="Red" >Red</option>
+                            <option value="Yellow">Yellow</option>
+                            <option value="Blue">Blue</option>
+                            <option value="Green">Green</option>
+                            <option value="Orange">Orange</option>
+                        </select>
+                    </td>
+                </tr>              
+                 <tr>
+                    <td>
+                        <label for="Parameters"> Size of dot <b></label>
+                    </td>
+                    <td>
+                        <input type="input" value="5" id="widthDot"  style="width: 69px;">
+                        <input class="setsize" type="submit" value="Set size" id="setSize" onclick="setDotSize(document.getElementById('widthDot').value)">     
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="3">
+                        <input class="clearandsend" type="submit" value="Clear Sketchpad" id="clearbutton" onclick="clearCanvas(canvas,ctx);" >                        
+                        <input class="clearandsend" type="submit" name = "sendbutton" value="Send to project" id="sendbutton" onclick="sendToServer(document.getElementById('sketchpad'));">                       
+                    </td>                    
+                </tr>
+            </table>                         
+        </div>
+        <div class="rightside">
+            <canvas id="sketchpad" height="300" width="400">
+            </canvas>
+        </div>
+    </div>
+
+
+<!-- <form method="post" accept-charset="utf-8" name="form1">
+            <input name="hidden_data" id='hidden_data' type="hidden"/>
+        </form>
+ 
+        <script>
+            function uploadEx() {
+                var canvas = document.getElementById("sketchpad");
+                var dataURL = canvas.toDataURL("image/png");
+                document.getElementById('hidden_data').value = dataURL;
+                var fd = new FormData(document.forms["form1"]);
+ 
+                var xhr = new XMLHttpRequest();
+                xhr.open('POST', 'saveImage.php', true);
+ 
+                xhr.upload.onprogress = function(e) {
+                    if (e.lengthComputable) {
+                        var percentComplete = (e.loaded / e.total) * 100;
+                        console.log(percentComplete + '% uploaded');
+                        alert('Succesfully uploaded');
+                    }
+                };
+ 
+                xhr.onload = function() {
+ 
+                };
+                xhr.send(fd);
+            };
+        </script> -->
+
+
+</body>
+</html>

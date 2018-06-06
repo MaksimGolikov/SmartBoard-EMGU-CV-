@@ -98,21 +98,12 @@ namespace Search_.Presenters
             List<int> configurations;
             Emgu.CV.Capture c;
 
-            tmpPresenter.GetSystemConfigurationsForNewForm(out configurations, out invert, out isRecognezeByColor, out c);
+            tmpPresenter.GetSystemConfigurationsForNewForm(out configurations, out isRecognezeByColor, out c);
 
             minPerimeter = configurations[0];
             maxPerimeter = configurations[1];
 
-            thr = configurations[2];
-            thrL = configurations[3];
-            Red_low = configurations[4];
-            Red_high = configurations[5];
-            Green_low = configurations[6];
-            Green_high = configurations[7];
-            Blue_low = configurations[8];
-            Blue_high = configurations[9];
-
-
+           
             operationForFilter = Operations.NONE;
             lastReadOperation = "";
             countChange = 0;

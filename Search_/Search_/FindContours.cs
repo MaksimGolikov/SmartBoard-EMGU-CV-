@@ -153,12 +153,145 @@ namespace Search_
         #endregion
 
 
+        #region by RGB color
+
+        public void IdentifyContours(Bitmap colorImage, bool invert, int minPerimeter, int maxPerimeter,
+                                     int Red_H, int Green_H, int Blue_H, int Red_L, int Green_L, int Blue_L,
+                                     out Bitmap processedGray, out Bitmap processedColor, out List<RecognitionType> detectedObj)
+        {
+            detectedObj = new List<RecognitionType>();
+            Rectangle gestureRectangle = new Rectangle(0, 0, 1, 1);
+            
+            colorImage.RotateFlip(RotateFlipType.RotateNoneFlipX);
+            Image<Gray, byte> grayImage = new Image<Gray, byte>(colorImage);
+            Image<Bgr, byte> color = new Image<Bgr, byte>(colorImage);
+
+            #region Extracting the Contours
+
+
+            color.PyrDown().PyrUp();
+            color.SmoothGaussian(3);
+            var  finishImage = color.InRange(new Bgr(Blue_L, Green_L, Red_L),
+                                             new Bgr(Blue_H, Green_H, Red_H));
+
+            finishImage.PyrDown().PyrUp();
+            finishImage.SmoothGaussian(3);
+
+            if (invert)
+            {
+                finishImage._Not();
+            }
+
+            using (MemStorage storage = new MemStorage())
+            {
+
+                for (Contour<Point> contours = finishImage.FindContours(Emgu.CV.CvEnum.CHAIN_APPROX_METHOD.CV_CHAIN_APPROX_SIMPLE,
+                     Emgu.CV.CvEnum.RETR_TYPE.CV_RETR_TREE, storage); contours != null; contours = contours.HNext)
+                {
+                    Contour<Point> currentContour = contours.ApproxPoly(contours.Perimeter * 0.015, storage);
+
+                    if (currentContour.BoundingRectangle.Width > 20)
+                    {
+                        if (contours.Perimeter > minPerimeter && contours.Perimeter < maxPerimeter)
+                        {
+                            CvInvoke.cvDrawContours(finishImage, contours, new MCvScalar(255), new MCvScalar(255),
+                                                    -1, 2, Emgu.CV.CvEnum.LINE_TYPE.EIGHT_CONNECTED, new Point(0, 0));
+                            color.Draw(currentContour.BoundingRectangle, new Bgr(0, 255, 0), 1);
+
+                            detectedObj.Add(new RecognitionType()
+                            {
+                                GesturePosition = currentContour.BoundingRectangle,
+                                GestureImage = finishImage.ToBitmap().Clone(currentContour.BoundingRectangle, finishImage.ToBitmap().PixelFormat)
+                            });
+                        }
+                    }
+                }
+            }
+            #endregion
+
+
+            #region Asigning output
+            processedColor = color.ToBitmap();
+            processedGray = finishImage.ToBitmap();
+            #endregion
+        }
+
+
+
+
+
+
+        #endregion
+
+
+        public void IdentifyContours(Bitmap colorImage,double up, double down, int minPerimeter, int maxPerimeter,
+                                      out Bitmap returnColor, out Bitmap returnGray, out List<RecognitionType> detectedObj)
+        {
+           
+            Rectangle gestureRectangle = new Rectangle(0, 0, 1, 1);
+            detectedObj = new List<RecognitionType>();
+
+            colorImage.RotateFlip(RotateFlipType.RotateNoneFlipX);
+            Image<Gray, byte> grayImage = new Image<Gray, byte>(colorImage);
+            Image<Hsv, byte> color = new Image<Hsv, byte>(colorImage);
+
+            #region Extracting the Contours
+            
+            
+            var channels = color.Split();
+
+            channels[1].PyrDown().PyrUp();
+            channels[1].SmoothMedian(5);
+            channels[1].PyrDown().PyrUp();
+
+            var im = channels[1].InRange(new Gray(down), new Gray(up));
+            var finishImage = im.SmoothMedian(5);
+            finishImage._Not();
+
+            using (MemStorage storage = new MemStorage())
+            {
+
+                for (Contour<Point> contours = finishImage.FindContours(Emgu.CV.CvEnum.CHAIN_APPROX_METHOD.CV_CHAIN_APPROX_SIMPLE,
+                     Emgu.CV.CvEnum.RETR_TYPE.CV_RETR_TREE, storage); contours != null; contours = contours.HNext)
+                {
+                    Contour<Point> currentContour = contours.ApproxPoly(contours.Perimeter * 0.015, storage);
+
+                    if (currentContour.BoundingRectangle.Width > 20)
+                    {
+                        if (contours.Perimeter > minPerimeter && contours.Perimeter < maxPerimeter)
+                        {
+                            CvInvoke.cvDrawContours(finishImage, contours, new MCvScalar(255), new MCvScalar(255),
+                                                                           -1, 2, Emgu.CV.CvEnum.LINE_TYPE.EIGHT_CONNECTED, new Point(0, 0));
+                            color.Draw(currentContour.BoundingRectangle, new Hsv(0, 255, 0), 1);
+
+                            detectedObj.Add(new RecognitionType()
+                            {
+                                GesturePosition = currentContour.BoundingRectangle,
+                                GestureImage = finishImage.ToBitmap().Clone(currentContour.BoundingRectangle, finishImage.ToBitmap().PixelFormat)
+                            });
+                        }
+                    }
+                }
+            }
+            
+            #endregion
+
+
+            #region Asigning output
+             returnColor = color.ToBitmap();
+             returnGray  = finishImage.ToBitmap();
+            #endregion
+        }
+
+
+
+
 
 
 
 
         public void IdentifyContours(Bitmap colorImage, int thresholdValue, bool invert, int minPerimeter, int maxPerimeter,
-                                     int Rl, int Gl, int Bl, int Rh, int Gh, int Bh,
+                                     int Y_h, int Cr_h, int Cb_h, int Y_l, int Cr_l, int Cb_l,
                                      out Bitmap processedGray, out Bitmap processedColor, out List<RecognitionType> detectedObj)
         {
             detectedObj = new List<RecognitionType>();
@@ -172,9 +305,7 @@ namespace Search_
 
             IColorSkinDetector skinDetection;
 
-            Ycc YCrCb_min = new Ycc(Bl, Gl, Rl);
-            Ycc YCrCb_max = new Ycc(Bh, Gh, Rh);
-
+           
             #endregion
 
 
@@ -182,7 +313,7 @@ namespace Search_
 
 
             skinDetection = new YCrCbSkinDetector();
-            Image<Gray, byte> skin = skinDetection.DetectSkin(color, YCrCb_min, YCrCb_max);
+            Image<Gray, byte> skin = skinDetection.DetectSkin(color, new Ycc(Y_l, Cr_l, Cb_l), new Ycc(Y_h, Cr_h, Cb_h));
          
             if (invert)
             {
@@ -244,8 +375,8 @@ namespace Search_
 
             IColorSkinDetector skinDetection;
 
-            Ycc YCrCb_min = new Ycc(Bl, Gl, Rl);
-            Ycc YCrCb_max = new Ycc(Bh, Gh, Rh);
+            Ycc YCrCb_min = new Ycc(Rl, Gl, Bl);
+            Ycc YCrCb_max = new Ycc(Rh, Gh, Bh);
 
             #endregion
 
@@ -292,6 +423,11 @@ namespace Search_
             #endregion
             
         }
+
+
+
+        
+
 
 
 

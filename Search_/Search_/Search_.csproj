@@ -67,6 +67,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="FindContours.cs" />
+    <Compile Include="Forms\fCalibration.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\fCalibration.Designer.cs">
+      <DependentUpon>fCalibration.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\fDisplay.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -85,6 +91,7 @@
     <Compile Include="Objects\ControlsObject.cs" />
     <Compile Include="Objects\myObject.cs" />
     <Compile Include="Objects\Operations.cs" />
+    <Compile Include="Presenters\CalibrationPresenter.cs" />
     <Compile Include="Presenters\ConfigurationPresenter.cs" />
     <Compile Include="Presenters\ObjectControlPresenter.cs" />
     <Compile Include="Program.cs" />
@@ -95,6 +102,9 @@
     <Compile Include="WorkWithVideoStream\IColorSkinDetector.cs" />
     <Compile Include="WorkWithVideoStream\RecognitionType.cs" />
     <Compile Include="WorkWithVideoStream\YCrCbSkinDetector.cs" />
+    <EmbeddedResource Include="Forms\fCalibration.resx">
+      <DependentUpon>fCalibration.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\fDisplay.resx">
       <DependentUpon>fDisplay.cs</DependentUpon>
     </EmbeddedResource>

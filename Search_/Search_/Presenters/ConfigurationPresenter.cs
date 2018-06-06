@@ -31,48 +31,40 @@ namespace Search_.Presenters
         int    image_count;
 
         bool workBySkin;
+        bool shouldInvert;
 
         decimal minPerimeter;
         decimal maxPerimeter;
-        decimal trash;
-        decimal trashLink;
-        List<decimal> Red;  // first min, second max
-        List<decimal> Green;// first min, second max
-        List<decimal> Blue; // first min, second max
-        bool shouldInvert;
+       
+        double upHue;
+        double downHue;
+        double upSati;
+        double downSati;
 
-        double deltaBetweenMinMaxColorCode;
-        double radiusOfSearchColorArea;
 
-           
-        
         public string GetPathToFolder { get => pathToSaveFolder; }
 
 
         public ConfigurationPresenter(fSettings newForm)
         {
-            Red = new List<decimal>();
-            Green = new List<decimal>();
-            Blue = new List<decimal>();
-
+          
             netOfNeurons = new NetOfNeuron();
             processor = new FindContours();
 
             form = newForm;
-
-            deltaBetweenMinMaxColorCode = 0;
+           
             image_count = 0;
             saveGestureToFolder = false;
 
-
+            DefaultSettings();
             try
             {
-                LoadSettings();
+               // LoadSettings();
 
-                if (Red.Count == 0)
-                {
-                    DefaultSettings();
-                }
+                //if (Red.Count == 0)
+                //{
+                //    DefaultSettings();
+                //}
             }
             catch
             {
@@ -80,51 +72,50 @@ namespace Search_.Presenters
             }
         }
 
+        public void GetSystemConfigurations(out List<decimal> decemalValues)
+        {
+            decemalValues = new List<decimal>();
+
+          
+            decemalValues.Add((int)upHue);
+            decemalValues.Add((int)downHue);
+            decemalValues.Add((int)upSati);
+            decemalValues.Add((int)downSati);
+        }
+
 
         public void  GetSystemConfigurations(out List<decimal> decemalValues,
-                                             out bool invertImage, out bool bySkin )
+                                             out bool bySkin )
         {
             decemalValues = new List<decimal>();
 
             decemalValues.Add( (int)maxPerimeter);
             decemalValues.Add((int)minPerimeter);
-            decemalValues.Add((int)trash);
-            decemalValues.Add((int)trashLink);
 
-            decemalValues.Add((int)Red[0]);
-            decemalValues.Add((int)Green[0]);
-            decemalValues.Add((int)Blue[0]);
-            decemalValues.Add((int)Red[1]);
-            decemalValues.Add((int)Green[1]);
-            decemalValues.Add((int)Blue[1]);
 
-            decemalValues.Add((int)deltaBetweenMinMaxColorCode);
-            decemalValues.Add((int)radiusOfSearchColorArea);
+            decemalValues.Add((int)upHue);
+            decemalValues.Add((int)downHue);
+            decemalValues.Add((int)upSati);
+            decemalValues.Add((int)downSati);
 
-            invertImage = shouldInvert;
             bySkin = workBySkin;
         }
 
-        public void GetSystemConfigurationsForNewForm(out List<int> decemalValues,
-                                                      out bool invertImage,
+        public void GetSystemConfigurationsForNewForm(out List<int> decemalValues,                                                     
                                                       out bool bySkin,
                                                       out Capture cam)
         {
             decemalValues = new List<int>();
 
-            decemalValues.Add((int)minPerimeter);
             decemalValues.Add((int)maxPerimeter);
-            decemalValues.Add((int)trash);
-            decemalValues.Add((int)trashLink);
+            decemalValues.Add((int)minPerimeter);
 
-            decemalValues.Add((int)Red[0]);
-            decemalValues.Add((int)Red[1]);
-            decemalValues.Add((int)Green[0]);
-            decemalValues.Add((int)Green[1]);
-            decemalValues.Add((int)Blue[0]);          
-            decemalValues.Add((int)Blue[1]);
+            decemalValues.Add((int)upHue);
+            decemalValues.Add((int)downHue);
+            decemalValues.Add((int)upSati);
+            decemalValues.Add((int)downSati);
 
-            invertImage = shouldInvert;
+
             bySkin = workBySkin;
 
             cam = camera;
@@ -135,66 +126,34 @@ namespace Search_.Presenters
             System.Diagnostics.Process.Start("Helper.exe");
         }
 
+      
 
 
         #region Filter configurations
-        public void SetNew_Red(decimal low, decimal high)
-        {
-            if (low >= 0 && high >= 0)
-            {
-                Red[0] = low;
-                Red[1] = high;
-            }           
-        }
 
-        public void SetNew_Green(decimal low, decimal high)
+        public void LounchCalibrationForm()
         {
-            if (low >= 0 && high >= 0)
-            {
-                Green[0] = low;
-                Green[1] = high;
-            }
+            Forms.fCalibration fCalib = new fCalibration(this.camera.QueryFrame().ToBitmap(), this);
+            fCalib.ShowDialog();
         }
-
-        public void SetNew_Blue(decimal low, decimal high)
-        {
-            if (low >= 0 && high >= 0)
-            {
-                Blue[0] = low;
-                Blue[1] = high;
-            }
-        }
-
-        
-        public void SetNew_Trash(decimal value)
-        {
-            if (value >= 0)
-            {
-                trash = value;
-            }
-        }
-
-        public void SetNew_TrashLink(decimal value)
-        {
-            if (value >= 0)
-            {
-                trashLink = value;
-            }
-        }
-
-        public void SetNew_InvertImage(bool invert)
-        {
-            shouldInvert = invert;
-        }
-
 
         public void SkinMode(bool mode)
         {
             workBySkin = mode;
         }
-        #endregion
 
-        #region Correct area
+        public void SetNew_ColorHue(double up, double bottom)
+        {
+            this.upHue = up;
+            this.downHue = bottom;
+        }
+
+        public void SetNew_ColorSati(double up, double bottom)
+        {
+            this.upSati = up;
+            this.downSati = bottom;
+        }
+
         public void SetNew_minPerimeter(decimal perimeter)
         {
             if (perimeter > 0)
@@ -204,69 +163,10 @@ namespace Search_.Presenters
         }
         public void SetNew_maxPerimeter(decimal perimeter)
         {
-            if (perimeter > 0)
+            if (perimeter > 0 && perimeter > minPerimeter)
             {
                 maxPerimeter = perimeter;
-            }
-        }
-
-        #endregion
-
-        #region Search color
-
-        public void SetNew_DeltaSearchColor(decimal value)
-        {
-            if (value > 0)
-            {
-                deltaBetweenMinMaxColorCode = (double)value;
-            }
-        }
-        public void SetNew_RadiusSearchColor(decimal value)
-        {
-            if (value > 0)
-            {
-                radiusOfSearchColorArea = (double)value;
-            }
-        }
-
-
-        public void SearchColor(Image image, Point mousePosition)
-        {
-            Image<Ycc, byte> My_Image = new Image<Ycc, byte>(new Bitmap(image));
-
-            int minX = mousePosition.X - (int)radiusOfSearchColorArea;
-            int maxX = mousePosition.X + (int)radiusOfSearchColorArea;
-
-            int minY = mousePosition.Y - (int)radiusOfSearchColorArea;
-            int maxY = mousePosition.Y + (int)radiusOfSearchColorArea;
-            
-            int countOfPoints = (maxX - minX) * (maxY - minY);
-
-            Ycc rgb = new Ycc( 0, 0, 0);
-
-            for (int i = minX; i< maxX; i++)
-            {
-                for (int j = minY; j < maxY; j++)
-                {
-                    rgb.Y += My_Image[i, j].Y;
-                    rgb.Cb += My_Image[i, j].Cb;
-                    rgb.Cr += My_Image[i, j].Cr;
-                }
-            }
-
-            rgb.Y = rgb.Y / countOfPoints;
-            rgb.Cb = rgb.Cb / countOfPoints;
-            rgb.Cr = rgb.Cr / countOfPoints;
-
-
-            SetNew_Red( (decimal)(0),
-                        (decimal)(rgb.Y) );
-            SetNew_Green((decimal)(0),
-                             (decimal)(rgb.Cb ));
-            SetNew_Blue((decimal)(0),
-                         (decimal)(rgb.Cr ));
-
-
+            }            
         }
         #endregion
 
@@ -293,8 +193,7 @@ namespace Search_.Presenters
         public void SaveGesture_Process(Image image)
         {
             if (saveGestureToFolder)
-            {
-               
+            {               
                 image.Save(pathToSaveFolder +"/"+ image_count + ".jpg");
                 image_count++;
             }
@@ -304,33 +203,22 @@ namespace Search_.Presenters
         public void NewFrame(out Bitmap color, out Bitmap gray, out Bitmap gesture, out string recognizedGesture)
         {
             List<RecognitionType> findedHands = new List<RecognitionType>();
-
-            
+                        
             if (workBySkin)
             {
-                processor.IdentifyContours(this.camera.QueryFrame().ToBitmap(), (int)trash, shouldInvert, (int)minPerimeter, (int)maxPerimeter,
+                processor.IdentifyContours(this.camera.QueryFrame().ToBitmap(),0, shouldInvert, (int)minPerimeter, (int)maxPerimeter,
                                            out gray, out color, out findedHands);
             }
             else
             {
-                //processor.IdentifyContours(this.camera.QueryFrame().ToBitmap(), (int)minPerimeter, (int)maxPerimeter,
-                //                      out gray, out color, out findedHands,
-                //                      (int)trash, (int)trashLink,
-                //                      (int)Red[0], (int)Green[0], (int)Blue[0],
-                //                      (int)Red[1], (int)Green[1], (int)Blue[1],
-                //                      shouldInvert);
-                processor.IdentifyContours(this.camera.QueryFrame().ToBitmap(), (int)trash, shouldInvert, (int)minPerimeter, (int)maxPerimeter,
-                                           (int)Red[0], (int)Green[0], (int)Blue[0],
-                                           (int)Red[1], (int)Green[1], (int)Blue[1],
-                                           out gray, out color, out findedHands);
-
-
-
-            }
-
-
-
-           
+                //processor.IdentifyContours(this.camera.QueryFrame().ToBitmap(), shouldInvert, (int)minPerimeter, (int)maxPerimeter,
+                //                           (int)Red[1], (int)Green[1], (int)Blue[1],
+                //                           (int)Red[0], (int)Green[0], (int)Blue[0],
+                //                           out gray, out color, out findedHands);
+                processor.IdentifyContours(this.camera.QueryFrame().ToBitmap(), 0, 0, (int)minPerimeter, (int)maxPerimeter
+                                           , out color, out gray, out findedHands);
+                
+            }            
 
             if (findedHands.Count > 0)
             {
@@ -379,19 +267,9 @@ namespace Search_.Presenters
             StreamWriter write = new StreamWriter("settings.svSt");
 
             write.WriteLine("Max perimeter:" + maxPerimeter);
-            write.WriteLine("Min perimeter:" + minPerimeter);
-            write.WriteLine("tr:" + trash);
-            write.WriteLine("trL:" + trashLink);
-            write.WriteLine("Red_low:" + Red[0]);
-            write.WriteLine("Green_low:" + Green[0]);
-            write.WriteLine("Blue_low:" + Blue[0]);
-            write.WriteLine("Red_high:" + Red[1]);
-            write.WriteLine("Green_high:" + Green[1]);
-            write.WriteLine("Blue_high:" + Blue[1]);
-            write.WriteLine("Invert:" + shouldInvert);
+            write.WriteLine("Min perimeter:" + minPerimeter);           
             write.WriteLine("By skin:" + workBySkin);
-            write.WriteLine("Delta_colos_Search:" + deltaBetweenMinMaxColorCode);
-            write.WriteLine("Radius_color_Search:"+ radiusOfSearchColorArea);
+          
             write.WriteLine(pathToSaveFolder);
 
             write.Close();
@@ -401,14 +279,6 @@ namespace Search_.Presenters
         {
             if (File.Exists("settings.svSt"))
             {
-                Red.Add(0);
-                Red.Add(0);
-                Green.Add(0);
-                Green.Add(0);
-                Blue.Add(0);
-                Blue.Add(0);
-
-
                 StreamReader reader = new StreamReader("settings.svSt");
                 string line;
                 while ((line = reader.ReadLine()) != null)
@@ -422,42 +292,15 @@ namespace Search_.Presenters
                             break;
                         case "Min perimeter":
                             minPerimeter = Convert.ToDecimal(m[1]);
-                            break;
-                        case "tr":
-                            trash = Convert.ToDecimal(m[1]);
-                            break;
-                        case "trL":
-                            trashLink = Convert.ToDecimal(m[1]);
-                            break;
-                        case "Red_low":
-                            Red[0] = Convert.ToDecimal(m[1]);
-                            break;
-                        case "Green_low":
-                           Green[0] = Convert.ToDecimal(m[1]);
-                            break;
-                        case "Blue_low":
-                           Blue[0] = Convert.ToDecimal(m[1]);
-                            break;
-                        case "Red_high":
-                            Red[1] = Convert.ToDecimal(m[1]);
-                            break;
-                        case "Green_high":
-                            Green[1] = Convert.ToDecimal(m[1]);
-                            break;
-                        case "Blue_high":
-                           Blue[1] = Convert.ToDecimal(m[1]);
-                            break;
-                        case "Invert":
-                           shouldInvert = Convert.ToBoolean(m[1]);
-                            break;
+                            break;                       
                         case "By skin":
                             workBySkin = Convert.ToBoolean(m[1]);
                             break;
                         case "Delta_colos_Search":
-                            deltaBetweenMinMaxColorCode = Convert.ToDouble(m[1]);
+                          //  deltaBetweenMinMaxColorCode = Convert.ToDouble(m[1]);
                             break;
                         case "Radius_color_Search":
-                            radiusOfSearchColorArea = Convert.ToDouble(m[1]);
+                         //   radiusOfSearchColorArea = Convert.ToDouble(m[1]);
                             break;
 
                         default:
@@ -472,28 +315,11 @@ namespace Search_.Presenters
 
         private void DefaultSettings()
         {
-            Red.Add(0);
-            Red.Add(0);
-            Green.Add(0);
-            Green.Add(0);
-            Blue.Add(0);
-            Blue.Add(0);
-
             maxPerimeter = 100;
-            minPerimeter = 200;
-            trash = 100;
-            trashLink = 100;
-            Red[0] = 0;
-            Red[1] = 100;
-            Green[0] = 0;
-            Green[1] = 100;
-            Blue[0] = 0;
-            Blue[1] = 100;
+            minPerimeter = 100;
+          
             shouldInvert = false;
-            workBySkin = true;
-
-            deltaBetweenMinMaxColorCode = 10;
-            radiusOfSearchColorArea = 1;
+            workBySkin   = true;
         }
 
         #endregion
